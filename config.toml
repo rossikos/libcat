@@ -1,0 +1,33 @@
+
+# file
+filetypes = [".pdf", ".epub",]
+metadata = 0
+parsefor = ['lcc', 'ddc', 'isbn']
+parseall = 'yes'
+exiftoolpath = ""
+
+# search / retrieve
+order = ['loc', 'bdirect', 'k10', 'openl']
+wait = 0
+retries = 10
+timeout = 10
+languages = [] # e.g 'eng', 'rus'
+classifiers = ['record', 'lcc', 'ddc']
+altisbns = 'yes'
+
+[tokens]
+bbt_debug_bridge = ""
+
+[catalogs]
+loc = {"cclass" = "SRU", "base_url" = "http://lx2.loc.gov:210/lcdb", query = "bath.isbn", recordtype='marcxml'}
+k10 = {"cclass" = "SRU", "base_url" = "https://sru.k10plus.de/opac-de-627", query = "pica.isb", recordtype='marcxml'}
+bdirect = {"cclass" = "Bdirect", recordtype='marcxml'}
+hathi = {"cclass" = "Hathi", recordtype='marcxml'}
+openl = {"cclass" = "Openl", "base_url" = "openlibrary.org/api/volumes/full/isbn", recordtype='openl'}
+
+### Alma ###
+ucs = {cclass = "Alma", "base_url" = "search.library.ucr.edu", "inst_code" = "01CDL_RIV_INST", "c2" = "UCR", "record_owner" = "01UCS_NETWORK", "query" = "alma.isbn=", recordtype='marcxml'} # university of california libraries
+carli = {cclass = "Alma", "base_url" = "i-share-uiu.primo.exlibrisgroup.com", "inst_code" = "01CARLI_UIU", "c2" = "CARLI_UIU", "rec_owner" = "01CARLI_NETWORK", "query" = "alma.isbn", recordtype='marcxml'} # Illinois University + CARLI system
+mit = {cclass = "Alma", "base_url" = "mit.primo.exlibrisgroup.com", "inst_code" = "01MIT_INST", "query" = "alma.isbn", recordtype='marcxml'}
+nyu = {cclass = "Alma", "base_url" = "search.library.nyu.edu", "inst_code" = "01NYU_INST", "query" = "alma.isbn", recordtype='marcxml'}
+# you may add more alma instances below

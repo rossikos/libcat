@@ -1,6 +1,6 @@
 # LibCat
 
-LibCat is a command-line program to assist with copy-cataloging. The central objective is to make it easy to retrieve a work's library classifications such as the Library of Congress or Dewey Decimal classifications and subject headings. LibCat is determined in this 
+LibCat is a command-line program to assist with copy-cataloging. The central objective is to make it easy to retrieve a work's library classifications such as the Library of Congress or Dewey Decimal classifications and subject headings. LibCat is determined in this endeavor, searching multiple library catalogs and alternative editions until all desired classification information is found.
 
 ## Installation
 

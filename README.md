@@ -2,6 +2,10 @@
 
 LibCat is a command-line program to assist with copy-cataloging. The central objective is to make it easy to retrieve a work's library classifications such as the Library of Congress or Dewey Decimal classifications and subject headings. LibCat is determined in this 
 
+## Installation
+
+This project will soon become available on the Python Package Index (PyPi)
+
 ## Usage
 
 `$ libcat <input> [MAIN OPTIONS]`
@@ -31,8 +35,6 @@ For example, to perform a search and then show data from the last job:
 ### File operations
 
 When specifying a PDF or EPUB file, LibCat parses the file for identifiers (e.g. lcc, ddc, or isbn) and then searches catalogs with isbn for missing classifiers. When a directory is specified, LibCat performs the file action on PDF and/or EPUBs in that directory and its subdirectories.
-
-
 
 
 ## Main Options

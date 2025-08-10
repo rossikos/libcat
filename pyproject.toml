@@ -1,7 +1,7 @@
 [project]
 name = "libcat"
 version = "0.1.0"
-description = "Add your description here"
+description = "A versatile program for Copy Cataloging"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

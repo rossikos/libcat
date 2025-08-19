@@ -76,8 +76,10 @@ def main(input_args=''):
             b = cur.description
             for idi, i in enumerate(a[0]):
                 if i:
-                    logger.info(f"{b[idi][0]}: {i}")
-            logger.info('\n')
+                    if b[idi][0] == 'record':
+                        i = str(i).replace('\\n', '\n')
+                    print(f"{b[idi][0]}: {i}")
+            print('\n')
         if args.jobtype:
             a = {
                 'i': 'isbn',
@@ -301,4 +303,4 @@ def tozotero(i, cur, con):
         response = requests.post('http://127.0.0.1:23119/debug-bridge/execute', headers=headers, data=script.encode('utf-8'))
 
         logger.info(f'Status code\t{response.status_code}')
-        logger.info(f'Zotero ID\t\t{response.text}')
+        logger.info(f'Zotero ID\t{response.text}')

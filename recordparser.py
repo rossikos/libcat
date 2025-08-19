@@ -17,10 +17,11 @@ def try_method(method):
         return None
 
 def tidy(text, a=0):
+    # if not text: return ''
     if a == 0:
         for i in ('[', ']', ',', '.', ':', '/', ';'):
             if text.endswith(i):
-                text = text.replace(i, '')
+                text = text[:-1]
 
     text = text.replace("\\'", "'").replace("'", "\\'").strip()
     text = text.replace("\\'", "'")
@@ -42,9 +43,11 @@ class marcxml_record():
         datafield = ''.join(f'[{a}="{v}"]' for a, v in dattrs if v)
         subfields = f""":is({','.join(f'[code="{c}"]' for c in codes)})""" if codes else None
         selector = ' > '.join(i for i in (datafield, subfields) if i)
+        # selector = '[tag="650"]'
         logger.debug('css selector:', selector)   
 
         result = tree.css_first(selector) if first else tree.css(selector)
+        # print(type(result))
         return result
 
 
@@ -63,11 +66,13 @@ class marcxml_record():
 
     def get_series(self):
         series = self.get_field(tag='490', codes=['a']) or self.get_field(tag='440', codes=['a'])
-        return tidy(series.text(), 0)
+        return tidy(series.text(), 0) if series else ''
+        # none case?
 
     def get_place(self):
         place = self.get_field(tag='260', codes=['a']) or self.get_field(tag='264', codes=['a'])
-        return tidy(place.text())
+        return tidy(place.text()) if place else ''
+        # none case?
 
     def get_publisher(self):
         publisher = self.get_field(tag='260', codes=['b']) or self.get_field(tag='264', codes=['b'])
@@ -76,6 +81,7 @@ class marcxml_record():
     def get_date(self):
         date = self.get_field(tag='260', codes=['c']) or self.get_field(tag='264', codes=['c'])
         return tidy(date.text())
+        # tidy beginning [?
 
     def get_isbn(self) -> list:
         isbns = self.get_field(tag='020', codes=['a'], first=False)
@@ -111,12 +117,16 @@ class marcxml_record():
 
     def get_author(self):
         author = self.get_field(tag="100", codes=['a'])
-        return author.text()
+        print(author.text())
+        return tidy(author.text()) if author else ''
+        # case for None
+        # tidy as well?
 
     def get_contributors(self) -> list:
         contributors = self.get_field(tag='700', codes=['a'], first=False) or []
         contributors = [i.text() for i in contributors]
         return contributors
+        # not checking for editor vs translator?
 
     def get_language(self):
         language = self.get_field(tag="008").text()[35:38]
@@ -143,6 +153,7 @@ class openl_record():
     def get_isbn(self) -> list:
         return (self.array.get('isbn_13') or []) + (self.array.get('isbn_10') or [])
 
+    # def get_contributors(self):
     def get_lcc(self):
         lcc = self.array.get('lc_classifications') or []
         if lcc:

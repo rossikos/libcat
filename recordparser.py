@@ -117,16 +117,26 @@ class marcxml_record():
 
     def get_author(self):
         author = self.get_field(tag="100", codes=['a'])
-        print(author.text())
         return tidy(author.text()) if author else ''
-        # case for None
-        # tidy as well?
 
-    def get_contributors(self) -> list:
-        contributors = self.get_field(tag='700', codes=['a'], first=False) or []
-        contributors = [i.text() for i in contributors]
+    def get_contributors(self) -> dict:
+        datafields = self.get_field(tag='700', first=False) or []
+        contributors = {}
+        ctypes = {
+            'translator': 'translator',
+            'editor': 'editor',
+            'ÜbersetzerIn': 'translator',
+        }
+        for i in datafields:
+            contributor = self.get_field(tree=i, codes=('a'))
+            ctype = self.get_field(tree=i, codes=('e'))
+
+            contributor = tidy(contributor.text()) if contributor else ''                 
+            ctype = ctypes.get(tidy(ctype.text()), 'contributor') if ctype else ''
+
+            contributors[contributor] = ctype
+            
         return contributors
-        # not checking for editor vs translator?
 
     def get_language(self):
         language = self.get_field(tag="008").text()[35:38]

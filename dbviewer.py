@@ -233,27 +233,16 @@ def process_marcxml(record, recordtype):
         author = f"{{firstName: '{afirst}', lastName: '{alast}', creatorType: 'author'}}"
         creators.append(author)
 
-    contributors = rec.get_field(tag='700', first=False)
-    for i in contributors:
-        cname = rec.get_field(tree=i, codes=("a"))
-        cname = cname.text().split(', ')
-        last, first = recordparser.get_at(cname, 0), recordparser.get_at(cname, 1)
-
-        ctype = rec.get_field(tree=i, codes=("e"))
-        
-        if ctype:
-            ctype = ctype.text().lower()
-            if ctype == 'translator':
-                ctype = 'translator'
-            if ctype == 'editor':
-                ctype = 'editor'
-        else: ctype = 'contributor'
+    contributors = rec.get_contributors()
+    for cname, ctype in contributors.items():
+        cname = cname.split(', ')
+        clast, cfirst = recordparser.get_at(cname, 0), recordparser.get_at(cname, 1)
 
         if author:
-            if last == alast and first == afirst:
+            if clast == alast and cfirst == afirst:
                 continue
 
-        contributor = {"firstName": first, "lastName": last, "creatorType": ctype}
+        contributor = {"firstName": cfirst, "lastName": clast, "creatorType": ctype}
         creators.append(contributor)
 
     return fields, creators

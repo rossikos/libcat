@@ -4,7 +4,11 @@ LibCat is a command-line program to assist with copy-cataloging. The central obj
 
 ## Installation
 
-This project will soon become available on the Python Package Index (PyPi)
+PyPi package coming soon. For the time being, clone the repository:
+
+`git clone https://github.com/rossikos/libcat`
+
+and install dependencies with `uv sync`
 
 ## Usage
 
